@@ -18,8 +18,8 @@ The pipeline follows 6 clear steps:
 |------|-------------|
 | 1 | Load the retail dataset (200 customers, 5 features) |
 | 2 | Select features: `Annual Income (k$)` and `Spending Score (1-100)`, then standardize |
-| 3 | Use the **Elbow Method** to find the optimal number of clusters |
-| 4 | Apply **K-Means** clustering with `k=5` |
+| 3 | Plot the **Elbow curve**, then pick `k` by the highest **silhouette score** (k = 5) |
+| 4 | Apply **K-Means** clustering with the chosen `k` |
 | 5 | Visualize clusters using a Seaborn scatter plot |
 | 6 | Analyze each cluster's mean income and spending score |
 
@@ -52,8 +52,9 @@ The pipeline follows 6 clear steps:
 
 - **Algorithm:** K-Means Clustering (`sklearn.cluster.KMeans`)
 - **Preprocessing:** StandardScaler (`sklearn.preprocessing`)
-- **Visualization:** Matplotlib (Elbow curve) + Seaborn (cluster scatter plot)
-- **Concepts:** Unsupervised Learning, Clustering, Feature Scaling, Elbow Method
+- **Choosing k:** Elbow curve (WCSS) + silhouette score (`sklearn.metrics.silhouette_score`)
+- **Visualization:** Matplotlib (elbow plot) + Seaborn (cluster scatter plot)
+- **Concepts:** Unsupervised Learning, Clustering, Feature Scaling, Elbow Method, Silhouette Analysis
 
 ---
 
@@ -62,10 +63,13 @@ The pipeline follows 6 clear steps:
 ```
 customer-segmentation-retail/
 ├── customer_segmentation.py     # Full ML pipeline
-├── retail_data.csv              # Customer dataset (200 rows)
-├── Report for Minor Project.pdf # Full project report (SmartED Innovations)
+├── retail_data.csv              # Customer dataset (200 rows, "Mall Customers")
+├── requirements.txt             # Python dependencies
+├── Report for Minor Project.pdf # Full project report
 └── README.md
 ```
+
+Running the script also writes `elbow_plot.png` and `customer_segments.png`.
 
 ---
 
@@ -85,10 +89,10 @@ python customer_segmentation.py
 ```
 
 ### What you'll see
-1. First 5 rows of the dataset printed to terminal
-2. **Elbow Method graph** — helps identify optimal `k`
-3. **Customer Segments scatter plot** — 5 colour-coded clusters
-4. **Cluster analysis table** — mean income and spending score per cluster
+1. Number of customers loaded, and the silhouette score for each candidate `k`
+2. **Elbow plot** (`elbow_plot.png`) with the chosen `k` marked
+3. **Customer Segments scatter plot** (`customer_segments.png`) — 5 colour-coded clusters
+4. **Cluster summary table** — mean income, mean spending, a plain-English segment label, and customer count per cluster
 
 ---
 
@@ -96,7 +100,7 @@ python customer_segmentation.py
 
 **K-Means Clustering** partitions data into `k` groups where each point belongs to the cluster with the nearest centroid. It minimises Within-Cluster Sum of Squares (WCSS).
 
-**The Elbow Method** plots WCSS against number of clusters. The "elbow" point — where the curve bends — indicates the optimal `k`. Here that's `k=5`.
+**Choosing k.** The elbow plot shows WCSS dropping as `k` rises; the "elbow" is a rough guide. To pick `k` objectively the script uses the **silhouette score** (how well-separated the clusters are, averaged over all points), which peaks at **k = 5** for this data.
 
 **StandardScaler** normalises features to have mean=0 and std=1, ensuring Annual Income (large numbers) doesn't dominate Spending Score (1–100 range) during clustering.
 
@@ -114,7 +118,7 @@ python customer_segmentation.py
 | 3 | High | Low | Wealthy but not engaged |
 | 4 | Low | Low | Price-sensitive, low engagement |
 
-*(Exact cluster labels vary per run due to K-Means random initialisation)*
+*(`random_state=42` is fixed, so cluster numbering is reproducible run to run.)*
 
 ---
 
