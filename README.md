@@ -140,5 +140,5 @@ Built during the **AI Internship at SmartED Innovations** (December 2025) as the
 ## Author
 
 **M. Adhitya** — B.Tech Computer Engineering, IITRAM Ahmedabad
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/loveadhitya/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/iamadhitya/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/iamadhitya1)
